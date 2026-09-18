@@ -1,4 +1,4 @@
-\# Equipo IMyP, Candidates 2026
+# Equipo IMyP, Candidates 2026
 
 
 
