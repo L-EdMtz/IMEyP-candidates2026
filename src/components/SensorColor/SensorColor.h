@@ -13,7 +13,7 @@ struct colors {
 class SensorColor {
     private:
         Adafruit_TCS34725 tcs;
-        uint16_t r_raw, g_raw, b_raw, c_raw; 
+        float r_raw, g_raw, b_raw; 
     
     public:
         SensorColor();

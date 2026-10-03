@@ -31,6 +31,7 @@ void loop() {
     colors color = tcs.readColor();
 
     rgb.turnOn(color.red, color.green, color.blue);
+    
     Serial.println(color.red);
     Serial.println(color.green);
     Serial.println(color.blue);
