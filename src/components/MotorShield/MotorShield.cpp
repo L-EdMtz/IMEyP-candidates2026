@@ -2,7 +2,7 @@
 
 MotorShield::MotorShield() 
     : motorLF(1), motorLB(2), motorRF(4), motorRB(3) {
-    // Código de inicialización adicional si lo necesitas
+
 }
 
 uint8_t speedMotorsF = 200;
