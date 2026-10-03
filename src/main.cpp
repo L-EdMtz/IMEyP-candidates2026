@@ -2,6 +2,7 @@
 #include "./components/MotorShield/MotorShield.h"
 #include "./components/Ultrasonic/Ultrasonic.h"
 #include "./components/SensorColor/SensorColor.h"
+#include "./components/LED/LED.h"
 
 
 Ultrasonic ultrasonicF(48, 47);
@@ -9,6 +10,7 @@ Ultrasonic ultrasonicL(27, 26);
 Ultrasonic ultrasonicR(28, 29);
 MotorShield motors;
 SensorColor tcs;
+LED rgb;
 
 void setup() {
     Serial.begin(9600);
@@ -16,6 +18,7 @@ void setup() {
     ultrasonicF.begin();
     ultrasonicL.begin();
     ultrasonicR.begin();
+    rgb.begin();
     
     if (!tcs.begin()) {
         Serial.println("Error con sensor de color");
@@ -24,6 +27,14 @@ void setup() {
 }
 
 void loop() {
+
+    colors color = tcs.readColor();
+
+    rgb.turnOn(color.red, color.green, color.blue);
+    Serial.println(color.red);
+    Serial.println(color.green);
+    Serial.println(color.blue);
+    delay(200);
 
     if (ultrasonicF.length() > ultrasonicL.length() && ultrasonicF.length() > ultrasonicR.length()) {
         motors.forward();
@@ -39,12 +50,5 @@ void loop() {
     else {
         motors.backward();
     }
-
-    colors color = tcs.readColor();
-
-    Serial.println(color.red);
-    Serial.println(color.green);
-    Serial.println(color.blue);
-    delay(200);
 
 }

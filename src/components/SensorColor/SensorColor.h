@@ -2,7 +2,6 @@
 #define SENSOR_COLOR_H
 
 #include <Arduino.h>
-#include <Wire.h>
 #include <Adafruit_TCS34725.h>
 
 struct colors {
