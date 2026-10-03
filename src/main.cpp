@@ -1,18 +1,33 @@
 #include <Arduino.h>
+#include "./components/MotorShield/MotorShield.h"
+#include "./components/Ultrasonic/Ultrasonic.h"
 
-// put function declarations here:
-int myFunction(int, int);
+Ultrasonic ultrasonicF(48, 47);
+Ultrasonic ultrasonicL(27, 26);
+Ultrasonic ultrasonicR(28, 29);
+MotorShield motors;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+
+    ultrasonicF.begin();
+    ultrasonicL.begin();
+    ultrasonicR.begin();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+    if (ultrasonicF.length() > ultrasonicL.length() && ultrasonicF.length() > ultrasonicR.length()) {
+        motors.forward();
+    }
+    else if (ultrasonicL.length() > ultrasonicF.length() && ultrasonicL.length() > ultrasonicR.length()) {
+        motors.turnLeft();
+    }
+    else if (ultrasonicR.length() > ultrasonicF.length() && ultrasonicR.length() > ultrasonicL.length()) {
+        motors.turnRight();
+    }
+    else {
+        motors.backward();
+    }
+
+
 }
