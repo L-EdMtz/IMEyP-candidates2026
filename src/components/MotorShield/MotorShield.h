@@ -13,10 +13,10 @@ class MotorShield {
     
     public:
         MotorShield();
-        void forward();
-        void backward();
-        void turnRight();
-        void turnLeft();
+        void forward(uint8_t speedMotorsF = 200);
+        void backward(uint8_t speedMotorsB = 150);
+        void turnRight(uint8_t speedMotorsT = 100);
+        void turnLeft(uint8_t speedMotorsT = 100);
 
 
 };

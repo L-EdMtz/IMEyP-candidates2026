@@ -5,11 +5,7 @@ MotorShield::MotorShield()
 
 }
 
-uint8_t speedMotorsF = 200;
-uint8_t speedMotorsB = 150;
-uint8_t speedMotorsT = 100;
-
-void MotorShield::forward() {
+void MotorShield::forward(uint8_t speedMotorsF) {
 
     motorLF.setSpeed(speedMotorsF);
     motorLB.setSpeed(speedMotorsF);
@@ -23,7 +19,7 @@ void MotorShield::forward() {
 
 }
 
-void MotorShield::backward() {
+void MotorShield::backward(uint8_t speedMotorsB) {
     motorLF.setSpeed(speedMotorsB);
     motorLB.setSpeed(speedMotorsB);
     motorRF.setSpeed(speedMotorsB);
@@ -36,7 +32,7 @@ void MotorShield::backward() {
 
 }
 
-void MotorShield::turnRight() {
+void MotorShield::turnRight(uint8_t speedMotorsT) {
     motorLF.setSpeed(speedMotorsT);
     motorLB.setSpeed(speedMotorsT);
     motorRF.setSpeed(speedMotorsT);
@@ -49,7 +45,7 @@ void MotorShield::turnRight() {
 
 }
 
-void MotorShield::turnLeft() {
+void MotorShield::turnLeft(uint8_t speedMotorsT) {
     motorLF.setSpeed(speedMotorsT);
     motorLB.setSpeed(speedMotorsT);
     motorRF.setSpeed(speedMotorsT);
