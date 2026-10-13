@@ -64,12 +64,12 @@ colorHSV SensorColor::rgbToHsv(float r, float g, float b) {
 }
 
 String SensorColor:: colorID(float h, float s, float v) {
-  // Si la saturación o el valor son muy bajos, no hay color claro
+    // Si la saturación o el valor son muy bajos, no hay color claro
     if (s < 0.20 || v < 15.0) {
         return "Desconocido / Indeterminado";
     }
 
-  // Clasificación según el ángulo H (Tono en 0-360°)
+    // Clasificación según el ángulo H (Tono en 0-360°)
     if (h >= 353 || h < 8) {
         return "Rojo";
     } 
