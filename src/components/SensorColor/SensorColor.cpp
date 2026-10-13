@@ -69,7 +69,6 @@ String SensorColor:: colorID(float h, float s, float v) {
         return "Desconocido / Indeterminado";
     }
 
-    // Clasificación según el ángulo H (Tono en 0-360°)
     if (h >= 353 || h < 8) {
         return "Rojo";
     } 
