@@ -5,51 +5,12 @@
 #include "./components/LED/LED.h"
 
 
-Ultrasonic ultrasonicF(48, 47);
-Ultrasonic ultrasonicL(27, 26);
-Ultrasonic ultrasonicR(28, 29);
-MotorShield motors;
-SensorColor tcs;
-LED rgb;
-
 void setup() {
-    Serial.begin(9600);
-
-    ultrasonicF.begin();
-    ultrasonicL.begin();
-    ultrasonicR.begin();
-    rgb.begin();
     
-    if (!tcs.begin()) {
-        Serial.println("Error con sensor de color");
-        while(1) delay(1000);
-    }
+
 }
 
 void loop() {
-
-    colors color = tcs.readColor();
-
-    rgb.turnOn(color.red, color.green, color.blue);
     
-    Serial.println(color.red);
-    Serial.println(color.green);
-    Serial.println(color.blue);
-    delay(200);
-
-    if (ultrasonicF.length() > ultrasonicL.length() && ultrasonicF.length() > ultrasonicR.length()) {
-        motors.forward();
-    }
-    else if (ultrasonicL.length() > ultrasonicF.length() && ultrasonicL.length() > ultrasonicR.length()) {
-        motors.turnLeft();
-        delay(1000);
-    }
-    else if (ultrasonicR.length() > ultrasonicF.length() && ultrasonicR.length() > ultrasonicL.length()) {
-        motors.turnRight();
-        delay(1000);
-    }
-    else {
-        motors.backward();
-    }
 
 }

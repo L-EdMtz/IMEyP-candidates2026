@@ -12,8 +12,8 @@ void LED::begin() {
 }
 void LED::turnOn(uint8_t r, uint8_t g, uint8_t b) {
 
-    analogWrite(pinR, 255 - r);
-    analogWrite(pinG, 255 - g);
-    analogWrite(pinB, 255 - b);
+    analogWrite(pinR, r);
+    analogWrite(pinG, g);
+    analogWrite(pinB, b);
     
 }

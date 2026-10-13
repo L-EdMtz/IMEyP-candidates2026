@@ -1,8 +1,11 @@
 #include "SensorColor.h"
 
 SensorColor::SensorColor() {
-    
-    tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_1X);
+    // Integracion (cantidad de tiempo que captura color) movimiento -, quieto +
+    // (2.4, 24, 50, 101, 154, 700)
+    // Ganancia (amplificacion de la señal) oscuro +, mucha luz - 
+    // (1, 4, 16, 60)
+    tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_24MS, TCS34725_GAIN_60X);
 }
 
 bool SensorColor::begin() {
@@ -13,23 +16,78 @@ bool SensorColor::begin() {
     return false;
 }
 
-colors SensorColor::readColor() {
-    colors color;
+colorRGB SensorColor::readColor() {
+    colorRGB color;
 
-    tcs.getRGB(&r_raw, &g_raw, &b_raw);
+    tcs.getRawData(&r_raw, &g_raw, &b_raw, &c_raw);
 
-    color.red = (uint8_t)constrain((int)(r_raw + 0.5f),0,255);
-    color.green = (uint8_t)constrain((int)(g_raw + 0.5f),0,255);
-    color.blue = (uint8_t)constrain((int)(b_raw + 0.5f),0,255);
-
-    // tcs.getRawData(&r_raw, &g_raw, &b_raw, &c_raw);
-
-
-    // if (c_raw > 0) {
-    //     color.red = (uint8_t)(((float)r_raw / c_raw) * 255);
-    //     color.green = (uint8_t)(((float)g_raw / c_raw) * 255);
-    //     color.blue = (uint8_t)(((float)b_raw / c_raw) * 255);
-    // }
+    color.red = (float)r_raw / c_raw * 225.0;
+    color.green = (float)g_raw / c_raw * 225.0;
+    color.blue = (float)b_raw / c_raw * 225.0;
 
     return color;
+}
+
+colorHSV SensorColor::rgbToHsv(float r, float g, float b) {
+    colorHSV color;
+
+
+    float maxVal = max(max(r, g), b);
+    float minVal = min(min(r, g), b);
+    float delta = maxVal - minVal;
+
+
+    color.v = maxVal;
+    color.s = (maxVal > 0.0) ? (delta / maxVal) : 0.0;
+    
+    if (delta < 0.00001) {
+        color.h = 0;
+    }
+
+    else {    
+        if (r >= maxVal) {
+            color.h = ((g - b) / delta);
+        } 
+        else if (g >= maxVal) {
+            color.h = 2.0 + ((b - r) / delta);
+        } 
+        else {
+            color.h = 4.0 + ((r - g) / delta);
+        }
+
+        color.h *= 60.0;
+
+        if (color.h < 0) color.h += 360.0;
+    }
+    
+    return color;
+}
+
+String SensorColor:: colorID(float h, float s, float v) {
+  // Si la saturación o el valor son muy bajos, no hay color claro
+    if (s < 0.20 || v < 15.0) {
+        return "Desconocido / Indeterminado";
+    }
+
+  // Clasificación según el ángulo H (Tono en 0-360°)
+    if (h >= 353 || h < 8) {
+        return "Rojo";
+    } 
+    else if (h >= 8 && h < 40) {
+        return "Naranja";
+    } 
+    else if (h >= 40 && h < 68) {
+        return "Amarillo";
+    } 
+    else if (h >= 68 && h < 150) {
+        return "Verde";
+    } 
+    else if (h >= 150 && h < 260) {
+        return "Azul";
+    } 
+    else if (h >= 260 && h < 353) {
+        return "Rosa / Magenta";
+    }
+
+    return "Desconocido";
 }
