@@ -5,12 +5,12 @@
 
 class LED {
     private:
-        // const uint8_t pinR = 44;
-        // const uint8_t pinG = 45;
-        // const uint8_t pinB = 46;
-        const uint8_t pinR = 3;
-        const uint8_t pinG = 5;
-        const uint8_t pinB = 6;
+        const uint8_t pinR = 44;
+        const uint8_t pinG = 45;
+        const uint8_t pinB = 46;
+        // const uint8_t pinR = 3;
+        // const uint8_t pinG = 5;
+        // const uint8_t pinB = 6;
 
     public:
         LED();
