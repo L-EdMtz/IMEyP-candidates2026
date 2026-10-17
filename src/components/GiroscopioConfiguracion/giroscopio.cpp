@@ -72,28 +72,32 @@ void GIROSCOPIO::actualizarAngulo() {
 }
 
 void GIROSCOPIO::girar(float gradosObjetivo, MotorShield &motores) {
-  float anguloMeta = anguloActual + gradosObjetivo;
-  uint8_t potenciaGiro = 160; // Potencia de transmisión (0 a 255)
+    float anguloMeta = anguloActual + gradosObjetivo;
+    uint8_t potenciaGiro = 255; // Potencia de transmisión (0 a 255)
+    const float TOLERANCIA = 4.0; // Rango de tolerancia de ±4 grados
 
-  if (gradosObjetivo > 0) { 
-    motores.turnLeft(potenciaGiro);  //Gira a la derecha
-    while (anguloActual < anguloMeta) {
-      actualizarAngulo();                        //Comandos para girar hasta alcanzar el ángulo objetivo
+    if (gradosObjetivo > 0) { 
+        motores.turnLeft(potenciaGiro); // Gira a la izquierda/derecha según tu cableado
+        
+        // Corta el bucle 4 grados antes de anguloMeta
+        while (anguloActual < (anguloMeta - TOLERANCIA)) {
+            actualizarAngulo();
+        }
+    } else { 
+        motores.turnRight(potenciaGiro);
+        
+        // Corta el bucle 4 grados antes de anguloMeta
+        while (anguloActual > (anguloMeta + TOLERANCIA)) {
+            actualizarAngulo();
+        }
     }
-  } else { 
-    motores.turnRight(potenciaGiro);
-    while (anguloActual > anguloMeta) {
-      actualizarAngulo();
 
-    }
-  }
-
-  //FRENAR TODOS LOS MOTORES
-  delay(500);
-  actualizarAngulo();
-  tiempoAnterior = millis();
+    // FRENAR TODOS LOS MOTORES
+    motores.stop(); // Apaga los motores al alcanzar el rango
+    delay(500);
+    actualizarAngulo();
+    tiempoAnterior = millis();
 }
-
 void GIROSCOPIO::avanzarHastaPared(float anguloObjetivo, uint8_t velocidadBase, float distanciaLimite, MotorShield &motores, Ultrasonic &sensorFrente) {
   motores.forward(velocidadBase);
   while (sensorFrente.length() > distanciaLimite) {

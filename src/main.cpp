@@ -14,7 +14,7 @@ Ultrasonic sensorFrente(31, 32); // Trigger pin 31, Echo pin 32
 Ultrasonic sensorIzquierdo(33, 34); // Trigger pin 33, Echo pin 34
 Ultrasonic sensorDerecho(35, 36); // Trigger pin 35, Echo pin 36
 
-const float DISTANCIA_PARADA = 7.0; // Se detiene a 15 cm de la pared frontal
+const float DISTANCIA_PARADA = 10.0; // Se detiene a 15 cm de la pared frontal
 const float UMBRAL_LIBRE = 20.0;      // Distancia mínima para considerar que un camino está libre
 
 void setup() {
