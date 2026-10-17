@@ -55,5 +55,12 @@ void MotorShield::turnLeft(uint8_t speedMotorsT) {
     motorLB.run(BACKWARD);
     motorRF.run(FORWARD);
     motorRB.run(FORWARD);
+}
+
+void MotorShield::stop() {
+    motorLF.run(RELEASE);
+    motorLB.run(RELEASE);
+    motorRF.run(RELEASE);
+    motorRB.run(RELEASE);
 
 }

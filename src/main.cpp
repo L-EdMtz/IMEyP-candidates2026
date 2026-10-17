@@ -1,14 +1,19 @@
 // #include <Arduino.h>
+// #include <Wire.h>
 // #include "./components/MotorShield/MotorShield.h"
 // #include "./components/Ultrasonic/Ultrasonic.h"
 // #include "./components/SensorColor/SensorColor.h"
 // #include "./components/LED/LED.h"
+// #include "./components/GiroscopioConfiguracion/giroscopio.h"
 
+// GIROSCOPIO giroscopio;
 // SensorColor tcs;
 // LED rgbL;
 
 // void setup() {
 //     Serial.begin(9600);
+//     Wire.begin();
+//     giroscopio.inicializar();
 //     rgbL.begin();
 //     if (!tcs.begin()) {
 //         Serial.println("Error initializing TCS34725");
