@@ -4,6 +4,8 @@
 #include "./components/MotorShield/MotorShield.h"
 #include "./components/Ultrasonic/Ultrasonic.h"
 
+void actualizarColor();   // definida en el archivo principal
+
 GIROSCOPIO::GIROSCOPIO(uint8_t addr)
 {
     direccion = addr;
@@ -94,6 +96,8 @@ bool GIROSCOPIO::girar(float gradosObjetivo, MotorShield &motores, unsigned long
         
         // Corta el bucle 4 grados antes de anguloMeta
         while (anguloActual < (anguloMeta - TOLERANCIA)) {
+            actualizarColor();
+
             actualizarAngulo();
             Serial.print("Angulo actual: ");
             Serial.println(anguloActual);
@@ -110,6 +114,8 @@ bool GIROSCOPIO::girar(float gradosObjetivo, MotorShield &motores, unsigned long
 
         // Corta el bucle 4 grados antes de anguloMeta
         while (anguloActual > (anguloMeta + TOLERANCIA)) {
+            actualizarColor();
+
             actualizarAngulo();
             Serial.print("Angulo actual: ");
             Serial.println(anguloActual);
@@ -130,7 +136,10 @@ bool GIROSCOPIO::girar(float gradosObjetivo, MotorShield &motores, unsigned long
 
 void GIROSCOPIO::avanzarHastaPared(float anguloObjetivo, uint8_t velocidadBase, float distanciaLimite, MotorShield &motores, Ultrasonic &sensorFrente) {
   motores.forward(velocidadBase);
+
+
   while (sensorFrente.length() > distanciaLimite) {
+
     actualizarAngulo();
     //float error = anguloActual - anguloObjetivo;
     //float ajuste = static_cast<int>( error * 2); // Ajuste proporcional al error
@@ -147,5 +156,8 @@ void GIROSCOPIO::avanzarHastaPared(float anguloObjetivo, uint8_t velocidadBase, 
     motores.motorRF.setSpeed(velocidadDerecha);
     motores.motorRB.setSpeed(velocidadDerecha);
   }
+  actualizarColor();
   motores.stop();
+  delay(50);
+  
 }

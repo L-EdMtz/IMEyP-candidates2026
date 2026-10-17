@@ -19,10 +19,10 @@ void MotorShield::forward(uint8_t speedMotorsF) {
 
     delay(500);
 
-    motorLF.setSpeed(speedMotorsF-55);
-    motorLB.setSpeed(speedMotorsF-55);
-    motorRF.setSpeed(speedMotorsF-55);
-    motorRB.setSpeed(speedMotorsF-55);
+    motorRF.setSpeed(speedMotorsF-50);
+    motorRB.setSpeed(speedMotorsF-50);
+    motorLB.setSpeed(speedMotorsF-50);
+    motorLF.setSpeed(speedMotorsF-50);
 }
 
 void MotorShield::backward(uint8_t speedMotorsB) {
@@ -39,10 +39,10 @@ void MotorShield::backward(uint8_t speedMotorsB) {
 
     delay(500);
 
-    motorLF.setSpeed(speedMotorsB-55);
-    motorLB.setSpeed(speedMotorsB-55);
-    motorRF.setSpeed(speedMotorsB-55);
-    motorRB.setSpeed(speedMotorsB-55);
+    motorLF.setSpeed(speedMotorsB-50);
+    motorLB.setSpeed(speedMotorsB-50);
+    motorRF.setSpeed(speedMotorsB-50);
+    motorRB.setSpeed(speedMotorsB-50);
 }
 
 void MotorShield::turnRight(uint8_t speedMotorsT) {

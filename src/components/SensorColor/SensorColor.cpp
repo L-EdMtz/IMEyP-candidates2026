@@ -69,24 +69,23 @@ String SensorColor:: colorID(float h, float s, float v) {
         return "Desconocido / Indeterminado";
     }
 
-    if (h >= 353 || h < 8) {
-        return "red";
+    if (h < 2.7 || h >= 340) {
+        return "magenta";
     } 
     else if (h >= 8 && h < 40) {
         return "orange";
     } 
-    else if (h >= 40 && h < 68) {
+    else if (h >= 40 && h < 50) {
         return "yellow";
     } 
-    else if (h >= 58 && h < 150) {
+    else if (h >= 50 && h < 140) {
         return "green";
     } 
-    else if (h >= 150 && h < 260) {
+    else if (h >= 140 && h < 260) {
         return "cyan";
     } 
-    else if (h >= 260 && h < 359) {
-        return "magenta";
+    else  {
+        return "red";
     }
 
-    return "Desconocido";
 }
