@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "./components/MotorShield/MotorShield.h"
+#include "./components/Ultrasonic/Ultrasonic.h"
 
 GIROSCOPIO::GIROSCOPIO(uint8_t addr)
 {
@@ -77,48 +78,65 @@ void GIROSCOPIO::actualizarAngulo() {
   }
 }
 
-void GIROSCOPIO::girar(float gradosObjetivo, MotorShield &motores) {
+
+bool GIROSCOPIO::girar(float gradosObjetivo, MotorShield &motores, unsigned long timeoutMs) {
+    unsigned long tiempoInicio = millis();
     float anguloMeta = anguloActual + gradosObjetivo;
     uint8_t potenciaGiro = 255; // Potencia de transmisión (0 a 255)
-    const float TOLERANCIA = 10.0; // Rango de tolerancia de ±4 grados
+    const float TOLERANCIA = 4.0; // Rango de tolerancia de ±4 grados
 
     if (gradosObjetivo > 0) { 
+        
+        // motores.moveLeft(potenciaGiro); // Gira a la izquierda/derecha según tu cableado
         motores.turnLeft(potenciaGiro); // Gira a la izquierda/derecha según tu cableado
-        delay(1000); // Espera un momento para que el giro comience
-        motores.turnLeft(potenciaGiro - 50);
+        // delay(400); // Espera un momento para que el giro comience
+        // motores.turnLeft(potenciaGiro - 50);
         
         // Corta el bucle 4 grados antes de anguloMeta
         while (anguloActual < (anguloMeta - TOLERANCIA)) {
             actualizarAngulo();
-            // Serial.print("Angulo actual: ");
-            // Serial.println(anguloActual);
+            Serial.print("Angulo actual: ");
+            Serial.println(anguloActual);
+            if (millis() - tiempoInicio >= timeoutMs) {
+                Serial.println("¡Tiempo límite de giro alcanzado! Abortando giro...");
+                return false; // Indica que el giro no se completó dentro del tiempo límite
+            }
         }
     } else { 
+        // motores.moveRight(potenciaGiro); // Gira a la izquierda/derecha según tu cableado
         motores.turnRight(potenciaGiro);
-        delay(1000);
-        motores.turnRight(potenciaGiro - 80);
+        // delay(400); // Espera un momento para que el giro comience
+        // motores.turnRight(potenciaGiro - 50);
+
         // Corta el bucle 4 grados antes de anguloMeta
         while (anguloActual > (anguloMeta + TOLERANCIA)) {
             actualizarAngulo();
-            // Serial.print("Angulo actual: ");
-            // Serial.println(anguloActual);
+            Serial.print("Angulo actual: ");
+            Serial.println(anguloActual);
+            if (millis() - tiempoInicio >= timeoutMs) {
+              Serial.println("¡Tiempo límite de giro alcanzado! Abortando giro...");
+              return false;
+        }
         }
     }
 
     // FRENAR TODOS LOS MOTORES
     motores.stop(); // Apaga los motores al alcanzar el rango
-    delay(200);
+    delay(100);
     actualizarAngulo();
     tiempoAnterior = millis();
+    return true; // Indica que el giro se completó exitosamente
 }
+
 void GIROSCOPIO::avanzarHastaPared(float anguloObjetivo, uint8_t velocidadBase, float distanciaLimite, MotorShield &motores, Ultrasonic &sensorFrente) {
   motores.forward(velocidadBase);
   while (sensorFrente.length() > distanciaLimite) {
     actualizarAngulo();
-    float error = anguloActual - anguloObjetivo;
-    //int ajuste = static_cast<int>(error * 1); // Ajuste proporcional al error
-    int velocidadIzquierda = velocidadBase-30; // - ajuste;
-    int velocidadDerecha = velocidadBase; //+ ajuste;
+    //float error = anguloActual - anguloObjetivo;
+    //float ajuste = static_cast<int>( error * 2); // Ajuste proporcional al error
+    // Ajustar las velocidades de los motores según el error
+    int velocidadIzquierda = velocidadBase-35; //ajuste;
+    int velocidadDerecha = velocidadBase; //ajuste;
 
     // Limitar las velocidades para que estén dentro del rango permitido
     velocidadIzquierda = constrain(velocidadIzquierda, 0, 255);

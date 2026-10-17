@@ -24,7 +24,7 @@ class GIROSCOPIO {
         float leerVelocidadGiroZ();
         void actualizarAngulo();
         float anguloActual = 0;
-        void girar(float gradosObjetivo, MotorShield &motores);
+        bool girar(float gradosObjetivo, MotorShield &motores, unsigned long timeoutMs = 5000);
         void inicializar();
         void avanzarHastaPared(float anguloObjetivo, uint8_t velocidadBase, float distanciaLimite, MotorShield &motores, Ultrasonic &sensorFrente);
 
