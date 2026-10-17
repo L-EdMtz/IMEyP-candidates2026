@@ -1,6 +1,6 @@
-#include <Wire.h>
 #include "giroscopio.h"
 #include <Arduino.h>
+#include <Wire.h>
 #include "./components/MotorShield/MotorShield.h"
 
 GIROSCOPIO::GIROSCOPIO(uint8_t addr)
@@ -71,23 +71,20 @@ void GIROSCOPIO::actualizarAngulo() {
   }
 }
 
-void GIROSCOPIO::girar(float gradosObjetivo) {
+void GIROSCOPIO::girar(float gradosObjetivo, MotorShield &motores) {
   float anguloMeta = anguloActual + gradosObjetivo;
   uint8_t potenciaGiro = 160; // Potencia de transmisión (0 a 255)
 
   if (gradosObjetivo > 0) { 
-    
+    motores.turnLeft(potenciaGiro);  //Gira a la derecha
     while (anguloActual < anguloMeta) {
-      actualizarAngulo();
-      //MOTORES DE IZQUIERDA RETROCEDE
-
-      //MOTORES DE DERECHA AVANZAN                          //Comandos para girar hasta alcanzar el ángulo objetivo
+      actualizarAngulo();                        //Comandos para girar hasta alcanzar el ángulo objetivo
     }
   } else { 
+    motores.turnRight(potenciaGiro);
     while (anguloActual > anguloMeta) {
       actualizarAngulo();
-      //MOTORES DE IZQUIERDA AVANZAN
-      //MOTORES DE DERECHA RETROCEDEN
+
     }
   }
 
@@ -95,4 +92,25 @@ void GIROSCOPIO::girar(float gradosObjetivo) {
   delay(500);
   actualizarAngulo();
   tiempoAnterior = millis();
+}
+
+void GIROSCOPIO::avanzarHastaPared(float anguloObjetivo, uint8_t velocidadBase, float distanciaLimite, MotorShield &motores, Ultrasonic &sensorFrente) {
+  motores.forward(velocidadBase);
+  while (sensorFrente.length() > distanciaLimite) {
+    actualizarAngulo();
+    float error = anguloActual - anguloObjetivo;
+    int ajuste = static_cast<int>(error * 2); // Ajuste proporcional al error
+    int velocidadIzquierda = velocidadBase - ajuste;
+    int velocidadDerecha = velocidadBase + ajuste;
+
+    // Limitar las velocidades para que estén dentro del rango permitido
+    velocidadIzquierda = constrain(velocidadIzquierda, 0, 255);
+    velocidadDerecha = constrain(velocidadDerecha, 0, 255);
+
+    motores.motorLF.setSpeed(velocidadIzquierda);
+    motores.motorLB.setSpeed(velocidadIzquierda);
+    motores.motorRF.setSpeed(velocidadDerecha);
+    motores.motorRB.setSpeed(velocidadDerecha);
+  }
+  motores.stop();
 }

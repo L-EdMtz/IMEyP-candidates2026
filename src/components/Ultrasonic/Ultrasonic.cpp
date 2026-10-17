@@ -1,3 +1,4 @@
+#
 #include "Ultrasonic.h"
 
 Ultrasonic::Ultrasonic(uint8_t trigger, uint8_t echo) {
@@ -19,6 +20,10 @@ long Ultrasonic::length() {
     digitalWrite(pinTrigger,LOW);
 
     long duration = pulseIn(pinEcho,HIGH);
+    if (duration == 0) {
+        return 400; // Retorna 400 si no se detecta un pulso
+    }
+    
     long distance = (duration * 0.034) / 2;
 
     return distance;

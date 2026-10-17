@@ -7,14 +7,14 @@
 
 #ifndef GIROSCOPIO_H
 #define GIROSCOPIO_H
-
+#include "./../MotorShield/MotorShield.h"
+#include "./../Ultrasonic/Ultrasonic.h"
 #include <Arduino.h>
 
 class GIROSCOPIO {
     private:
         static constexpr uint8_t MPU_ADDR = 0x68;
         float gyroZ_offset = 0;
-        float anguloActual = 0;
         unsigned long tiempoAnterior = 0;
         uint8_t direccion;
 
@@ -23,12 +23,10 @@ class GIROSCOPIO {
         float calibrarGiroscopio();
         float leerVelocidadGiroZ();
         void actualizarAngulo();
-        void girar(float gradosObjetivo);
+        float anguloActual = 0;
+        void girar(float gradosObjetivo, MotorShield &motores);
         void inicializar();
-
-
-
-
+        void avanzarHastaPared(float anguloObjetivo, uint8_t velocidadBase, float distanciaLimite, MotorShield &motores, Ultrasonic &sensorFrente);
 
 };
 
