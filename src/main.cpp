@@ -6,6 +6,7 @@
 #include "./components/LED/LED.h"
 #include "./components/GiroscopioConfiguracion/giroscopio.h"
 
+int limite =7;// Distancia mínima para detenerse frente a un obstáculo
 GIROSCOPIO giroscopio;
 SensorColor tcs;
 LED rgbL;
