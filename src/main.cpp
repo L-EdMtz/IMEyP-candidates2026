@@ -76,7 +76,7 @@ void loop() {
     
     float rumboDeseado = giroscopio.anguloActual;
     bool giroExitoso = true;
-    giroscopio.avanzarHastaPared(rumboDeseado, 200, 15.0, motores, sensorFrente);
+    giroscopio.avanzarHastaPared(rumboDeseado, 190, 15.0, motores, sensorFrente);
 
     
     Serial.println(rumboDeseado);
@@ -94,17 +94,17 @@ void loop() {
         giroExitoso = giroscopio.girar(-90, motores);
     }
 
-    if (distanciaIzquierda > UMBRAL_LIBRE) {
+    // if (distanciaIzquierda > UMBRAL_LIBRE) {
 
-        giroExitoso = giroscopio.girar(90, motores); // Gira 90 grados a la izquierda
-        Serial.println("Girando a la izquierda");
+    //     giroExitoso = giroscopio.girar(90, motores); // Gira 90 grados a la izquierda
+    //     Serial.println("Girando a la izquierda");
 
-    } else if (distanciaDerecha > UMBRAL_LIBRE) {
+    // } else if (distanciaDerecha > UMBRAL_LIBRE) {
         
-        Serial.println("Girando a la derecha");
-        giroExitoso = giroscopio.girar(-90, motores); // Gira 90 grados a la derecha
+    //     Serial.println("Girando a la derecha");
+    //     giroExitoso = giroscopio.girar(-90, motores); // Gira 90 grados a la derecha
 
-    } 
+    // } 
     else {
         
         Serial.println("No hay espacio libre. Girando 180 grados.");
@@ -123,7 +123,7 @@ void loop() {
     if (girosAbortadosConsecutivos >= 2) {
         Serial.println("Se abortó el giro 2 veces seguidas. Retrocediendo durante 2.5 segundos...");
         
-        motores.backward(200); // O la función de retroceso que utilices
+        motores.backward(190); // O la función de retroceso que utilices
         esperar(1500);           
         motores.stop();
         
