@@ -38,11 +38,11 @@ void actualizarColor() {
     Serial.println(h.h);
     contadorRojo = (nombre == "red") ? contadorRojo + 1 : 0;
 
-    if (contadorRojo >= 3) {              // rojo: se corta todo
-        motores.stop();
-        Serial.println("ROJO detectado. Programa detenido.");
-        while (true) { }
-    }
+    // if (contadorRojo >= 3) {              // rojo: se corta todo
+    //     motores.stop();
+    //     Serial.println("ROJO detectado. Programa detenido.");
+    //     while (true) { }
+    // }
 }
 
 void esperar(unsigned long ms) {
@@ -63,7 +63,7 @@ void setup() {
     float offset = giroscopio.calibrarGiroscopio();
     Serial.println("Calibración completada");
     Serial.println("Offset del giroscopio:");
-    // Serial.println(offset);
+    Serial.println(offset);
     rgbL.begin();
     if (!tcs.begin()) {
         Serial.println("Error initializing TCS34725");
@@ -76,7 +76,7 @@ void loop() {
     
     float rumboDeseado = giroscopio.anguloActual;
     bool giroExitoso = true;
-    giroscopio.avanzarHastaPared(rumboDeseado, 220, 15.0, motores, sensorFrente);
+    giroscopio.avanzarHastaPared(rumboDeseado, 200, 15.0, motores, sensorFrente);
 
     
     Serial.println(rumboDeseado);
@@ -123,7 +123,7 @@ void loop() {
     if (girosAbortadosConsecutivos >= 2) {
         Serial.println("Se abortó el giro 2 veces seguidas. Retrocediendo durante 2.5 segundos...");
         
-        motores.backward(220); // O la función de retroceso que utilices
+        motores.backward(200); // O la función de retroceso que utilices
         esperar(1500);           
         motores.stop();
         
@@ -135,7 +135,7 @@ void loop() {
     
 
 
-    esperar(100);
+    esperar(200);
     
 
 

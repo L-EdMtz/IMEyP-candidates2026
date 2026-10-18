@@ -84,7 +84,7 @@ void GIROSCOPIO::actualizarAngulo() {
 bool GIROSCOPIO::girar(float gradosObjetivo, MotorShield &motores, unsigned long timeoutMs) {
     unsigned long tiempoInicio = millis();
     float anguloMeta = anguloActual + gradosObjetivo;
-    uint8_t potenciaGiro = 255; // Potencia de transmisión (0 a 255)
+    uint8_t potenciaGiro = 200; // Potencia de transmisión (0 a 255)
     const float TOLERANCIA = 4.0; // Rango de tolerancia de ±4 grados
 
     if (gradosObjetivo > 0) { 
@@ -144,7 +144,7 @@ void GIROSCOPIO::avanzarHastaPared(float anguloObjetivo, uint8_t velocidadBase, 
     //float error = anguloActual - anguloObjetivo;
     //float ajuste = static_cast<int>( error * 2); // Ajuste proporcional al error
     // Ajustar las velocidades de los motores según el error
-    int velocidadIzquierda = velocidadBase-35; //ajuste;
+    int velocidadIzquierda = velocidadBase; //ajuste;
     int velocidadDerecha = velocidadBase; //ajuste;
 
     // Limitar las velocidades para que estén dentro del rango permitido
