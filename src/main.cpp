@@ -94,17 +94,17 @@ void loop() {
         giroExitoso = giroscopio.girar(-90, motores);
     }
 
-    // if (distanciaIzquierda > UMBRAL_LIBRE) {
+    if (distanciaIzquierda > UMBRAL_LIBRE) {
 
-    //     giroExitoso = giroscopio.girar(90, motores); // Gira 90 grados a la izquierda
-    //     Serial.println("Girando a la izquierda");
+        giroExitoso = giroscopio.girar(90, motores); // Gira 90 grados a la izquierda
+        Serial.println("Girando a la izquierda");
 
-    // } else if (distanciaDerecha > UMBRAL_LIBRE) {
+    } else if (distanciaDerecha > UMBRAL_LIBRE) {
         
-    //     Serial.println("Girando a la derecha");
-    //     giroExitoso = giroscopio.girar(-90, motores); // Gira 90 grados a la derecha
+        Serial.println("Girando a la derecha");
+        giroExitoso = giroscopio.girar(-90, motores); // Gira 90 grados a la derecha
 
-    // } 
+    } 
     else {
         
         Serial.println("No hay espacio libre. Girando 180 grados.");
