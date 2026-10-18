@@ -18,6 +18,9 @@ class MotorShield {
         void backward(uint8_t speedMotorsB = 150);
         void turnRight(uint8_t speedMotorsT = 100);
         void turnLeft(uint8_t speedMotorsT = 100);
+        void moveLeft(uint8_t speedMotorsT = 100);
+        void moveRight(uint8_t speedMotorsT = 100);
+        void breakMotors();
         void stop();
 
 
